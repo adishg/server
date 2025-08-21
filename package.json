@@ -2,13 +2,16 @@
   "name": "meditation-server",
   "version": "0.1.0",
   "type": "module",
-  "scripts": {
+ "scripts": {
     "dev": "tsx watch src/index.ts",
-    "build": "tsc -p tsconfig.json",
+    "build": "prisma generate && tsc -p tsconfig.json",
     "start": "node dist/index.js",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "seed": "tsx prisma/seed.ts"
+  },
+  "engines": {
+    "node": ">=20 <23"
   },
   "dependencies": {
     "@prisma/client": "^5.18.0",
