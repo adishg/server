@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { prisma } from '../../lib/prisma';
-import { authOptional } from '../../lib/jwt';
+import { prisma } from '../../lib/prisma.js';
+import { authOptional } from '../../lib/jwt.js';
 
 export const meditationRouter = Router();
 

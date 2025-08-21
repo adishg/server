@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import { z } from 'zod';
-import bcrypt from 'bcryptjs';
-import { prisma } from '../../lib/prisma';
-import { signAccess, signRefresh, authMiddleware } from '../../lib/jwt';
+import { z } from 'zod';  // @ts-ignore
+import bcrypt from 'bcryptjs'; 
+import { prisma } from '../../lib/prisma.js';  // @ts-ignore
+import { signAccess, signRefresh, authMiddleware } from '../../lib/jwt.js';  // @ts-ignore
 
 export const authRouter = Router();
 

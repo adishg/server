@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { prisma } from '../../lib/prisma';
-import { authMiddleware } from '../../lib/jwt';
+import { prisma } from '../../lib/prisma.js';
+import { authMiddleware } from '../../lib/jwt.js';
 
 export const formRouter = Router();
 

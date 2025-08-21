@@ -2,7 +2,7 @@
   "name": "meditation-server",
   "version": "0.1.0",
   "type": "module",
- "scripts": {
+  "scripts": {
     "dev": "tsx watch src/index.ts",
     "build": "npx prisma generate && tsc -p tsconfig.json",
     "start": "node dist/index.js",
@@ -26,6 +26,9 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/morgan": "^1.9.10",
     "prisma": "^5.18.0",
     "ts-node-dev": "^2.0.0",
     "tsx": "^4.20.4",

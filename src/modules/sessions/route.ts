@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { z } from 'zod';
-import { authMiddleware } from '../../lib/jwt';
-import { prisma } from '../../lib/prisma';
+import { authMiddleware } from '../../lib/jwt.js';
+import { prisma } from '../../lib/prisma.js';
 
 export const sessionRouter = Router();
 

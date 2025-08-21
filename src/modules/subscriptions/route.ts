@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import { z } from 'zod';
 import Razorpay from 'razorpay';
-import { prisma } from '../../lib/prisma';
-import { authMiddleware } from '../../lib/jwt';
+import { prisma } from '../../lib/prisma.js';
+import { authMiddleware } from '../../lib/jwt.js';
 
 export const subRouter = Router();
 

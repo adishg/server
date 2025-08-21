@@ -2,12 +2,12 @@ import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import morgan from 'morgan';
-import { authRouter } from './modules/auth/route';
-import { meditationRouter } from './modules/meditations/route';
-import { sessionRouter } from './modules/sessions/route';
-import { formRouter } from './modules/forms/route';
-import { subRouter } from './modules/subscriptions/route';
-import { webhookRouter } from './modules/webhooks/route';
+import { authRouter } from './modules/auth/route.js';
+import { meditationRouter } from './modules/meditations/route.js';
+import { sessionRouter } from './modules/sessions/route.js';
+import { formRouter } from './modules/forms/route.js';
+import { subRouter } from './modules/subscriptions/route.js';
+import { webhookRouter } from './modules/webhooks/route.js';
 
 const app = express();
 app.use(helmet());

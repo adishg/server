@@ -1,5 +1,6 @@
-import jwt from 'jsonwebtoken';
-import { env } from '../env';
+// @ts-ignore
+import jwt from 'jsonwebtoken'; 
+import { env } from '../env.js';
 
 export function signAccess(userId: string) {
   return jwt.sign({ sub: userId, typ: 'access' }, env.JWT_SECRET, { expiresIn: '15m' });
