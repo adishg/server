@@ -1,0 +1,143 @@
+datasource db { provider = "mysql"; url = env("DATABASE_URL") }
+generator client { provider = "prisma-client-js" }
+
+model User {
+  id             String   @id @default(cuid())
+  email          String   @unique
+  passwordHash   String
+  name           String?
+  avatarUrl      String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  lastLoginAt    DateTime?
+  timezone       String?
+  isActive       Boolean  @default(true)
+  role           Role     @default(USER)
+  sessions       Session[]
+  subscriptions  Subscription[]
+  purchases      Purchase[]
+  formResponses  FormResponse[]
+}
+
+enum Role { USER ADMIN }
+
+model Meditation {
+  id           String   @id @default(cuid())
+  title        String
+  description  String?
+  category     String
+  level        String?
+  lengthSec    Int
+  audioUrl     String
+  coverImage   String?
+  isPremium    Boolean   @default(false)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  programs     ProgramStep[]
+  sessions     Session[]
+}
+
+model Session {
+  id            String   @id @default(cuid())
+  userId        String
+  meditationId  String
+  startedAt     DateTime @default(now())
+  endedAt       DateTime?
+  rating        Int?
+  moodBefore    String?
+  moodAfter     String?
+  notes         String?
+  durationSec   Int?
+  user          User     @relation(fields: [userId], references: [id])
+  meditation    Meditation @relation(fields: [meditationId], references: [id])
+  @@index([userId, startedAt])
+}
+
+model Program {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  image       String?
+  isPremium   Boolean  @default(true)
+  steps       ProgramStep[]
+  createdAt   DateTime @default(now())
+}
+
+model ProgramStep {
+  id            String   @id @default(cuid())
+  programId     String
+  dayNumber     Int
+  title         String
+  meditationId  String?
+  content       String?
+  program       Program @relation(fields: [programId], references: [id])
+  meditation    Meditation? @relation(fields: [meditationId], references: [id])
+  @@unique([programId, dayNumber])
+}
+
+model Form {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  description String?
+  fields      FormField[]
+  isActive    Boolean @default(true)
+}
+
+model FormField {
+  id        String  @id @default(cuid())
+  formId    String
+  name      String
+  label     String
+  type      FieldType
+  required  Boolean @default(false)
+  options   Json?
+  sortOrder Int     @default(0)
+  form      Form    @relation(fields: [formId], references: [id])
+  @@index([formId, sortOrder])
+}
+
+enum FieldType { TEXT NUMBER SELECT MULTISELECT SCALE_1_10 BOOLEAN }
+
+model FormResponse {
+  id        String   @id @default(cuid())
+  formId    String
+  userId    String
+  answers   Json
+  createdAt DateTime @default(now())
+  form      Form     @relation(fields: [formId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+  @@index([userId, formId, createdAt])
+}
+
+model Subscription {
+  id                 String   @id @default(cuid())
+  userId             String
+  plan               String
+  provider           String
+  status             SubStatus @default(INACTIVE)
+  currentPeriodStart DateTime?
+  currentPeriodEnd   DateTime?
+  cancelAtPeriodEnd  Boolean @default(false)
+  providerCustomerId String?
+  providerSubId      String?
+  user               User @relation(fields: [userId], references: [id])
+  @@index([userId, status])
+}
+
+enum SubStatus { ACTIVE INACTIVE PAST_DUE CANCELED }
+
+model Purchase {
+  id                String   @id @default(cuid())
+  userId            String
+  provider          String
+  providerOrderId   String?
+  providerPaymentId String?
+  amountCents       Int
+  currency          String @default("INR")
+  status            String
+  raw               Json?
+  createdAt         DateTime @default(now())
+  user              User @relation(fields: [userId], references: [id])
+  @@index([userId, status])
+}
